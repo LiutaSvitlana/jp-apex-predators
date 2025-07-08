@@ -5,8 +5,6 @@
 //  Created by Svitlana Liuta on 07.07.2025.
 //
 
-import SwiftUI
-
 struct ApexPredator: Decodable {
     
     let id: Int
