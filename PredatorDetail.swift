@@ -52,7 +52,7 @@ struct PredatorDetail: View {
                             heading: 250,
                             pitch: 80))
                         )
-                        .navigationTransition(.zoom(sourceID: 1, in: namespace))
+                        .navigationTransition(.zoom(sourceID: 1, in: namespace))  
                     } label: {
                         Map(position: $position) {
                             Annotation(predator.name, coordinate: predator.location) {
@@ -79,7 +79,7 @@ struct PredatorDetail: View {
                         }
                         .clipShape(.rect(cornerRadius: 15))
                     }
-                    . matchedTransitionSource(id: 1, in: namespace) 
+                    . matchedTransitionSource(id: 1, in: namespace)
                     
                     // Appears in
                     Text("Appears In:")
