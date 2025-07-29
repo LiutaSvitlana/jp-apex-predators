@@ -12,6 +12,7 @@ struct PredatorDetail: View {
     let predator: ApexPredator
     
     @State var position: MapCameraPosition
+    @State var showFullScreenImage = false
     @Namespace var namespace
     
     var body: some View {
@@ -27,16 +28,21 @@ struct PredatorDetail: View {
                                                    Gradient.Stop(color: .black, location: 1)],
                                            startPoint: .top, endPoint: .bottom)
                         }
-                    
-                    // Dino image
-                    Image(predator.image)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: geo.size.width/1.5, height: geo.size.height/3.7)
-                    //  .border(.blue, width: 7)
-                        .scaleEffect(x: -1)
-                        .shadow(color: .black, radius: 7)
-                        .offset(y: 20)
+                    Button(action: {
+                        showFullScreenImage = true
+                    }) {
+                        // Dino image
+                        Image(predator.image)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: geo.size.width/1.5, height: geo.size.height/3.7)
+                            .scaleEffect(x: -1)
+                            .shadow(color: .black, radius: 7)
+                            .offset(y: 20)
+                            .fullScreenCover(isPresented: $showFullScreenImage) {
+                                ImageFullScreenView(predator: predator, imageName: predator.image)
+                            }
+                    }
                 }
                 VStack (alignment: .leading){
                     // Dino name
@@ -87,7 +93,7 @@ struct PredatorDetail: View {
                         .padding(.top)
                     
                     ForEach(predator.movies, id: \.self) { movie in
-                        Text("•" + movie)
+                        Text("• " + movie)
                             .font(.subheadline)
                     }
                     
@@ -123,8 +129,26 @@ struct PredatorDetail: View {
     }
 }
 
+struct ImageFullScreenView: View {
+    let predator: ApexPredator
+    let imageName: String
+    @Environment(\.dismiss) var dismiss
+    
+    var body: some View {
+        ZStack {
+            Image(predator.image)
+                .resizable()
+                .scaledToFit()
+                .scaleEffect(x: -1)
+                .onTapGesture {
+                    dismiss()
+                }
+        }
+    }
+}
+
 #Preview {
-    let predator = Predators().apexPredators[2]
+    let predator = Predators().apexPredators[3]
     
     NavigationStack {
         PredatorDetail(predator: predator, position: .camera(
